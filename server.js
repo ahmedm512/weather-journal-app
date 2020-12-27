@@ -26,28 +26,31 @@ app.use(express.static('website'));
 
 const port = 3000;
 
+
+
+// Callback function to complete GET '/all'
+app.get('/all', function(req, res) {
+    res.send(projectData);
+    //console.log(projectData, '/all');
+});
+
+app.post('/addData', function (req, res) {
+    var newEntry = {
+        temperature: req.body.temp,
+        date: req.body.date,
+        feelings: req.body.feelings,
+    };
+   // console.log(newEntry);
+
+    projectData.push(newEntry);
+   // console.log(projectData);
+    // set HTTP status of response to 204 ("Created")
+    res.status(200).end();
+});
+
 const server = app.listen(port, listening);
 
 function listening() {
     console.log(`server running on port: ${port}`)
 }
 
-
-
-// Callback function to complete GET '/all'
-app.get('/all', function sendData(req, res) {
-    res.send(projectData);
-});
-
-app.post('/addData', function getData(req, res) {
-    newEntry = {
-        temperature: req.body.temperature,
-        date: req.body.date,
-        feelings: req.body.feelings,
-    };
-
-    projectData.push(newEntry);
-    console.log(projectData);
-    // set HTTP status of response to 204 ("Created")
-    res.status(200).end();
-});
